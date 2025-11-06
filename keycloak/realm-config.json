@@ -26,7 +26,8 @@
       "secret": "your-client-secret-here",
       "redirectUris": [
         "https://localhost:8443/redirect_uri",
-        "https://localhost:8443/user"
+        "https://localhost:8443/user",
+        "https://localhost:8443/logged-out"
       ],
       "webOrigins": [
         "http://localhost:8080",
