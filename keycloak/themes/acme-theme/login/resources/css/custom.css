@@ -20,6 +20,19 @@ body {
     min-height: 100vh;
 }
 
+h4 {
+    padding: 15px 0px;
+    text-align: center;
+}
+
+label {
+    margin-top: 18px;
+}
+
+#kc-page-title {
+    height: 60px;
+}
+
 /* Container wrapper for the entire login page - match user-info and logged-out pages */
 #kc-container {
     max-width: 600px;
