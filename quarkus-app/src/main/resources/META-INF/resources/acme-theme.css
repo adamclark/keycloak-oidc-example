@@ -1,0 +1,99 @@
+/* ACME Company Theme - Shared Styles */
+:root {
+    --acme-primary: #d32f2f;
+    --acme-primary-dark: #b71c1c;
+    --acme-secondary: #1976d2;
+    --acme-secondary-dark: #1565c0;
+    --acme-button-background: #3498db;
+    --acme-text: #212121;
+    --acme-text-light: #757575;
+    --acme-bg: #fafafa;
+    --acme-surface: #ffffff;
+    --acme-border: #e0e0e0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    min-height: calc(100vh - 100px);
+}
+
+.container {
+    background-color: var(--acme-surface);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.header {
+    border-bottom: 3px solid var(--acme-primary);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: var(--acme-text);
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+h1::before {
+    content: "ACME ";
+    color: var(--acme-primary);
+}
+
+/* Login button styles */
+.login-btn,
+.logout-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--acme-button-background);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+.login-btn:hover,
+.logout-btn:hover {
+    background-color: var(--acme-secondary-dark);
+}
+
+/* User info specific styles */
+.user-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+    border-left: 4px solid var(--acme-primary);
+}
+
+.user-id {
+    font-size: 1.125rem;
+    color: var(--acme-text);
+    font-weight: 600;
+}
+
+.user-id-label {
+    color: var(--acme-text-light);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+/* Message styles */
+.message {
+    color: var(--acme-text-light);
+    font-size: 1.125rem;
+    margin: 30px 0;
+    line-height: 1.6;
+}
+

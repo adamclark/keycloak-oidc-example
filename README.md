@@ -84,6 +84,8 @@ podman-compose up -d
 
 For a detailed explanation of the OIDC authentication flow, see [OIDC_FLOW.md](OIDC_FLOW.md).
 
+For a detailed explanation of application of a common theme to the Quarkus application and Keycloak pages, see [THEMING.md](THEMING.md).
+
 ## Configuration
 
 ### Apache OIDC Configuration

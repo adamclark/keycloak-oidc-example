@@ -2,6 +2,7 @@
   "realm": "demo",
   "enabled": true,
   "displayName": "Demo Realm",
+  "loginTheme": "acme-theme",
   "users": [
     {
       "username": "testuser",
