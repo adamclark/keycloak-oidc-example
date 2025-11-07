@@ -11,3 +11,5 @@ target/
 
 apache/certs/
 keycloak/certs/
+keycloak/keycloak-idp-config.env
+keycloak/realm-config.json
