@@ -10,14 +10,10 @@ cd quarkus-app
 mvn clean package
 cd ..
 
-echo "Generating keycloak certificates..."
-cd keycloak
-./generate-certs.sh
-cd ..
-
-echo "Generating Apache certificates..."
+echo "Generating Apache certificates and OIDC configuration..."
 cd apache
 ./generate-certs.sh
+./generate-apache-config.sh
 cd ..
 
 echo "Building Apache container..."

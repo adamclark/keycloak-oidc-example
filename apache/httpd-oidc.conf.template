@@ -1,0 +1,66 @@
+<VirtualHost *:8443>
+    
+    ServerName localhost
+    
+    SSLEngine on
+
+    SSLCertificateFile /etc/httpd/tls/localhost.crt
+    SSLCertificateKeyFile /etc/httpd/tls/localhost.key
+
+    # OIDC Configuration - Direct to Entra ID (Microsoft Azure AD)
+    # Use Entra ID's well-known configuration endpoint
+    OIDCProviderMetadataURL https://login.microsoftonline.com/${ENTRA_ID_TENANT_ID}/v2.0/.well-known/openid-configuration
+    
+    # Override endpoints to use Entra ID endpoints
+    OIDCProviderTokenEndpoint https://login.microsoftonline.com/${ENTRA_ID_TENANT_ID}/oauth2/v2.0/token
+    OIDCProviderUserInfoEndpoint https://graph.microsoft.com/oidc/userinfo
+    OIDCProviderJwksUri https://login.microsoftonline.com/${ENTRA_ID_TENANT_ID}/discovery/v2.0/keys
+    OIDCProviderAuthorizationEndpoint https://login.microsoftonline.com/${ENTRA_ID_TENANT_ID}/oauth2/v2.0/authorize
+    
+    # Entra ID Application (Client) credentials
+    OIDCClientID ${ENTRA_ID_CLIENT_ID}
+    OIDCClientSecret ${ENTRA_ID_CLIENT_SECRET}
+    OIDCRedirectURI https://localhost:8443/redirect_uri
+    
+    # OIDC Configuration
+    OIDCCryptoPassphrase ${OIDC_CRYPTO_PASSPHRASE:-a-random-secret-key-change-this-in-production}
+    OIDCScope "openid profile email"
+    
+    # SSL validation for HTTPS
+    OIDCSSLValidateServer off
+    
+    # Proxy to Quarkus application
+    ProxyPass /user http://quarkus-app:8080/user
+    ProxyPassReverse /user http://quarkus-app:8080/user
+    ProxyPass /logged-out http://quarkus-app:8080/logged-out
+    ProxyPassReverse /logged-out http://quarkus-app:8080/logged-out
+    ProxyPass /acme-theme.css http://quarkus-app:8080/acme-theme.css
+    ProxyPassReverse /acme-theme.css http://quarkus-app:8080/acme-theme.css
+    
+    # OIDC Redirect URI handler
+    <Location /redirect_uri>
+        AuthType openid-connect
+        Require valid-user
+    </Location>
+
+    # Location for CSS file (no authentication required)
+    <Location /acme-theme.css>
+        Require all granted
+    </Location>
+    
+    # Location for logged-out page (no authentication required)
+    <Location /logged-out>
+        Require all granted
+    </Location>
+    
+    # Location for OIDC protected endpoint
+    <Location /user>
+        AuthType openid-connect
+        Require valid-user
+        
+        # Pass user ID to backend - Entra ID uses 'preferred_username' or 'upn' claim
+        RequestHeader set X-User-Id "%{OIDC_CLAIM_preferred_username}e"
+    </Location>
+
+</VirtualHost>
+

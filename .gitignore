@@ -10,6 +10,5 @@ target/
 *.iml
 
 apache/certs/
-keycloak/certs/
-keycloak/keycloak-idp-config.env
-keycloak/realm-config.json
+apache/apache-entra-id-config.env
+apache/httpd-oidc.conf
