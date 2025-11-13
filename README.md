@@ -4,6 +4,26 @@ This branch demonstrates Apache HTTP Server connecting **directly** to Entra ID 
 
 ## Architecture
 
+```mermaid
+graph TB
+    User[👤 User/Client]
+    Apache[🌐 Apache HTTP Server<br/>mod_auth_openidc<br/>Port: 8443 HTTPS]
+    EntraID[☁️ Entra ID<br/>Microsoft Azure AD<br/>OIDC Provider]
+    Quarkus[☕ Quarkus App<br/>Port: 8081 HTTP]
+
+    User -->|1. HTTPS Request| Apache
+    Apache -->|2. OIDC Auth Request| EntraID
+    EntraID -->|3. Auth Response<br/>Authorization Code| Apache
+    Apache -->|4. Token Exchange| EntraID
+    EntraID -->|5. ID Token & Access Token| Apache
+    Apache -->|6. Proxied Request<br/>X-User-Id Header| Quarkus
+    
+    style User fill:#e1f5ff
+    style Apache fill:#fff4e1
+    style EntraID fill:#e1f5ff
+    style Quarkus fill:#e1ffe1
+```
+
 1. **Apache HTTP Server** acts as a reverse proxy with OIDC authentication (HTTPS on port 8443)
 2. **Apache** connects directly to **Entra ID** for authentication
 3. **Quarkus** application receives authenticated requests with user ID in headers (HTTP on port 8081)
