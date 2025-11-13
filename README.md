@@ -8,6 +8,31 @@ This project demonstrates a containerized application using:
 
 ## Architecture
 
+```mermaid
+graph TB
+    User[👤 User/Client]
+    Apache[🌐 Apache HTTP Server<br/>mod_auth_openidc<br/>Port: 8443 HTTPS]
+    Keycloak[🔐 Keycloak<br/>OIDC Provider<br/>Port: 443 HTTPS]
+    Quarkus[☕ Quarkus App<br/>Port: 8081 HTTP]
+    PostgreSQL[(🗄️ PostgreSQL<br/>Database)]
+    EntraID[☁️ Entra ID<br/>Microsoft Azure AD<br/>Optional]
+
+    User -->|1. HTTPS Request| Apache
+    Apache -->|2. OIDC Auth Request| Keycloak
+    Keycloak -->|3. Optional Federation| EntraID
+    EntraID -.->|4. Auth Response| Keycloak
+    Keycloak -->|5. OIDC Tokens| Apache
+    Apache -->|6. Proxied Request<br/>X-User-Id Header| Quarkus
+    Keycloak <-->|7. Data Storage| PostgreSQL
+    
+    style User fill:#e1f5ff
+    style Apache fill:#fff4e1
+    style Keycloak fill:#ffe1f5
+    style Quarkus fill:#e1ffe1
+    style PostgreSQL fill:#f0e1ff
+    style EntraID fill:#e1f5ff,stroke-dasharray: 5 5
+```
+
 1. **Apache HTTP Server** acts as a reverse proxy with OIDC authentication (HTTPS on port 8443)
 2. **Keycloak** provides OIDC authentication services (HTTPS on port 443)
 3. **Quarkus** application receives authenticated requests with user ID in headers (HTTP on port 8081)
